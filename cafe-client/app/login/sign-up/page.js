@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { customerCreate } from "../../../api/braintreeApi";
+import { customerCreate } from "../../../api/paymentApi";
 import { useLoginStore } from "../../../store/user";
 
 const Page = ({ origin, changeView, close }) => {

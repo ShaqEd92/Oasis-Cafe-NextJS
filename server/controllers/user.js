@@ -1,15 +1,6 @@
 import User from "../models/user.js";
 import bcrypt from "bcrypt";
 
-export const listUsers = async (req, res) => {
-  try {
-    const users = await User.find();
-    res.status(200).json(users);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-};
-
 export const register = async (req, res) => {
   const _user = await User.findOne({
     email: req.body.email,
@@ -23,7 +14,7 @@ export const register = async (req, res) => {
       lastName: req.body.lastName,
       email: req.body.email,
       password: hash,
-      braintreeID: req.body.braintreeID,
+      stripeId: req.body.stripeId,
       subscriptions: [],
     };
     const newUser = new User(user);
@@ -37,7 +28,6 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  const hash = await bcrypt.hash(req.body.password, 10);
   try {
     const user = await User.findOne({
       email: req.body.email,
@@ -47,22 +37,5 @@ export const login = async (req, res) => {
     else res.status(401).json({ message: error.message });
   } catch (error) {
     res.status(404).json({ message: error.message });
-  }
-};
-
-export const addSubscription = async (req, res) => {
-  const filter = { _id: req.params.user };
-  const subscription = req.params.id;
-  try {
-    const user = await User.findOneAndUpdate(
-      filter,
-      { $push: { subscriptions: subscription } },
-      {
-        returnOriginal: false,
-      }
-    );
-    res.status(201).json(user);
-  } catch (error) {
-    res.status(422).json();
   }
 };
