@@ -1,71 +1,43 @@
 import express from "express";
 
+import { login, register } from "../controllers/user.js";
+import { createCharge } from "../controllers/charge.js";
 import {
   customerCreate,
-  customerDelete,
-  customerFind,
+  customerRetrieve,
   customerUpdate,
+  customerDelete,
 } from "../controllers/customer.js";
-import { getOrders, saveOrder } from "../controllers/order.js";
 import {
   paymentMethodCreate,
-  paymentMethodDelete,
-  paymentMethodFind,
+  paymentMethodRetrieve,
   paymentMethodUpdate,
+  paymentMethodDelete,
 } from "../controllers/paymentMethod.js";
 import {
-  subscriptionCancel,
   subscriptionCreate,
-  subscriptionFind,
+  subscriptionRetrieve,
   subscriptionUpdate,
+  subscriptionCancel,
 } from "../controllers/subscription.js";
-import {
-  generateClientToken,
-  transactionSale,
-  transactionSale2,
-} from "../controllers/transaction.js";
-import {
-  addSubscription,
-  listUsers,
-  login,
-  register,
-} from "../controllers/user.js";
 
 const router = express.Router();
 
 // User
 
-router.get("/users", listUsers);
-
 router.post("/users/register", register);
 
 router.post("/users/login", login);
 
-router.put("/users/subscription/:user/:id", addSubscription);
+// Charge
 
-// Transaction
-
-router.get("/generate-client-token", generateClientToken);
-
-router.post("/transaction-sale", transactionSale);
-
-router.post("/transaction-sale-2", transactionSale2);
-
-// Subscription
-
-router.post("/subscription-create", subscriptionCreate);
-
-router.get("/subscription-find/:id", subscriptionFind);
-
-router.put("/subscription-update/:id", subscriptionUpdate);
-
-router.put("/subscription-cancel/:id", subscriptionCancel);
+router.post("/charge", createCharge);
 
 // Customer
 
 router.post("/customer-create", customerCreate);
 
-router.get("/customer-find/:id", customerFind);
+router.get("/customer-retrieve/:id", customerRetrieve);
 
 router.put("/customer-update/:id", customerUpdate);
 
@@ -75,16 +47,20 @@ router.delete("/customer-delete/:id", customerDelete);
 
 router.post("/payment-create", paymentMethodCreate);
 
-router.get("/payment-find/:token", paymentMethodFind);
+router.get("/payment-retrieve/:token", paymentMethodRetrieve);
 
 router.put("/payment-update/:token", paymentMethodUpdate);
 
 router.delete("/payment-delete/:token", paymentMethodDelete);
 
-// Order
+// Subscription
 
-router.post("/orders", saveOrder);
+router.post("/subscription-create", subscriptionCreate);
 
-router.get("/orders/:id", getOrders);
+router.get("/subscription-retrieve/:id", subscriptionRetrieve);
+
+router.put("/subscription-update/:id", subscriptionUpdate);
+
+router.put("/subscription-cancel/:id", subscriptionCancel);
 
 export default router;

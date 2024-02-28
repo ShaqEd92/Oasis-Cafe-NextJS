@@ -1,56 +1,35 @@
-import gateway from "../lib/gateway.js";
+import Stripe from "stripe";
+import dotenv from "dotenv";
 
-export const customerCreate = (req, res) => {
-  const userObject = req.body;
-  gateway.customer.create(
-    {
-      id: userObject.braintreeID,
-      firstName: userObject.firstName,
-      lastName: userObject.lastName,
-      email: userObject.email,
-    },
-    (err, result) => {
-      if (err) {
-        res.json(err);
-      }
-      console.log(result)
-      res.json(result);
-    }
-  );
-};
+dotenv.config();
 
-export const customerFind = (req, res) => {
-  gateway.customer.find(req.params.id, (err, customer) => {
-    if (err) {
-      res.json(err);
-    }
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
+
+export const customerCreate = async (req, res) => {
+  try {
+    const customer = await stripe.customers.create({
+      name: req.body.firstName + " " + req.body.lastName,
+      email: req.body.email,
+    });
     res.json(customer);
-  });
+  } catch (error) {
+    res.json(error);
+  }
 };
 
-export const customerUpdate = (req, res) => {
-  gateway.customer.update(
-    req.params.id,
-    {
-      firstName: "New First Name",
-      //Todo: Add relevant customer updates
-    },
-    (err, result) => {
-      if (err) {
-        res.json({ message: err });
-      }
-      if (result.success) {
-        res.json(result);
-      } else {
-        res.json({ message: result.message });
-      }
-    }
-  );
+export const customerRetrieve = async (req, res) => {
+  try {
+    const customer = await stripe.customers.retrieve('cus_NffrFeUfNV2Hib');
+    res.json(customer);
+  } catch (error) {
+    res.json(error);
+  }
 };
 
-export const customerDelete = (req, res) => {
-  gateway.customer.delete(req.params.id, (err) => {
-    if (err) res.json({ message: err });
-    res.json({ message: "Successfully deleted" });
-  });
+export const customerUpdate = async (req, res) => {
+
+};
+
+export const customerDelete = async (req, res) => {
+
 };

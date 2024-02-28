@@ -5,8 +5,7 @@ const userSchema = mongoose.Schema({
   lastName: String,
   email: String,
   password: String,
-  braintreeID: String,
-  subscriptions: [String],
+  stripeId: String,
 });
 
 const User = mongoose.model("User", userSchema);
