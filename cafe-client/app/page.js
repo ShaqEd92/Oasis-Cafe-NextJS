@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from 'next/link'
 
-import { useLoginStore } from "../store/cart"
+import { useLoginStore } from "../store/user"
 
 const HomePage = () => {
   const loggedIn = useLoginStore((state) => state.loggedIn);
