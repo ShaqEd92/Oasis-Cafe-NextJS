@@ -5,7 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { useLoginStore, useCartItemsStore } from "../store/cart"
+import { useLoginStore } from "../../store/user"
+import { useCartItemsStore } from "../../store/cart"
 
 const NavigationBar = () => {
 

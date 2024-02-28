@@ -1,13 +1,11 @@
 import { create } from 'zustand';
 
-export const useLoginStore = create((set) => ({
-    loggedIn: false,
-    logIn: () => set(() => ({ loggedIn: true })),
-    logOut: () => set(() => ({ loggedIn: false })),
-}));
-
 export const useCartItemsStore = create((set) => ({
-    cartItems: [],
+    cartItems: [{
+        name: "Coffee",
+        price: "2.50",
+        quantity: 3
+    }],
     add: (newCartItem) => set((state) => ({
         cartItems: [...state.cartItems, newCartItem]
     })),
