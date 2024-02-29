@@ -1,170 +1,145 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
+import FormInput from "../../ui/form-input"
 import { customerCreate } from "../../../api/paymentApi";
+import { register } from "../../../api/userApi";
 import { useLoginStore } from "../../../store/user";
 
 const Page = ({ origin, changeView, close }) => {
 
-  // let history = useHistory();
-  const loggedIn = useLoginStore((state) => state.loggedIn);
+  const router = useRouter();
 
-  const [newUser, setNewUser] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    braintreeID: "",
-  });
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [passwordsMatch, setPasswordsMatch] = useState(true);
+  const loggedIn = useLoginStore((state) => state.loggedIn);
+  const logIn = useLoginStore((state) => state.logIn);
+
+  const [newUser, setNewUser] = useState({});
   const [errors, setErrors] = useState([]);
 
-  useEffect(() => {
-    if (newUser.braintreeID === "")
-      setNewUser({ ...newUser, braintreeID: generateCustomerID() });
-    if (loggedIn) {
-      origin === "login"
-        ? history.push("/menu")
-        : history.push("/subscribe");
-    }
-    else {
-      setErrors([...errors, "Registration failure. Please try again."]);
-    }
-  }, [newUser, loggedIn, errors, history, origin]);
+  const ref = useRef(null);
 
-  const generateCustomerID = () => {
-    const selection =
-      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVQXYZ0123456789";
-    let id = "User-";
-    for (let i = 0; i < 7; i++) {
-      id += selection[Math.floor(Math.random() * 62)];
-    }
-    return id;
-  };
+  // TODO Conditional roouting based on how login modal accessed
+  // useEffect(() => {
+  //   if (loggedIn) {
+  //     origin === "login"
+  //       ? history.push("/menu")
+  //       : history.push("/subscribe");
+  //   }
+  //   else {
+  //     setErrors([...errors, "Registration failure. Please try again."]);
+  //   }
+  // }, [loggedIn, errors, origin]);
 
-  const formIsValid = () => {
+  const formIsValid = (userObject) => {
     let _errors = [];
-    for (let [key, val] of Object.entries(newUser)) {
+    for (let [key, val] of Object.entries(userObject)) {
       if (!val.trim()) {
         _errors.push(key);
       }
     }
-    if (!passwordsMatch) _errors.push("Passwords do not match.");
+    if (userObject.password !== userObject.confirmPassword) _errors.push("Passwords do not match.");
     setErrors(_errors);
     return _errors.length === 0;
   };
 
-  const handleChange = ({ target }) => {
-    setErrors("");
-    setNewUser({ ...newUser, [target.name]: target.value });
-  };
-
-  const handleConfirm = ({ target }) => {
-    if (target.value === newUser.password) {
-      setPasswordsMatch(true);
-    } else {
-      setPasswordsMatch(false);
-    }
-    setConfirmPassword(target.value);
-  };
-
   const handleSubmit = async (event) => {
+    // TODO Immediately enable loading visual of some sort
     event.preventDefault();
-    if (!formIsValid()) return;
-    customerCreate(newUser)
-    dispatch(registerUser(newUser));
-    if(origin === "subscribe") close();
+    const formData = new FormData(event.currentTarget);
+
+    let userObject = {
+      firstName: formData.get('firstName'),
+      lastName: formData.get('lastName'),
+      email: formData.get('email'),
+      password: formData.get('password'),
+      confirmPassword: formData.get('confirmPassword')
+    }
+
+    setNewUser(userObject)
+    if (!formIsValid(userObject)) return;
+
+    customerCreate(userObject).then((response) => {
+      if (response.status === 200) {
+        let user = {
+          ...userObject,
+          stripeId: response.data.id
+        }
+        register(user).then((response) => {
+          if (response.status === 201) { 
+            logIn(true)
+            router.push("/menu")
+          } else {
+            // TODO Create div to display this error
+            // TODO Also, delete Stripe user if mongoDB user not successfully created
+            setErrors("Looks like something went wrong...")
+          }
+        })
+      }
+      else {
+        setErrors("Looks like something went wrong...")
+      }
+    })
+
+    // TODO Conditional roouting based on how login modal accessed
+    // if (origin === "subscribe") close();
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>{`Create An Oasis Caf\u00E9 Account`}</h2>
-      <div widths="equal">
-        <input
-          fluid
-          error={
-            errors.includes("firstName")
-              ? { content: "Please enter your first name", pointing: "above" }
-              : null
-          }
+    <>
+      <h1 className="mb-2 font-bold">{`Oasis Caf\u00E9`}</h1>
+      <form ref={ref} onSubmit={handleSubmit}>
+        <FormInput
+          error={errors.includes("firstName") ? "Please enter your first name" : null}
           label="First name"
+          type="text"
           placeholder="First name"
           name="firstName"
-          value={newUser.firstName}
-          onChange={handleChange}
         />
-        <input
-          fluid
-          error={
-            errors.includes("lastName")
-              ? { content: "Please enter your last name", pointing: "above" }
-              : null
-          }
+        <FormInput
+          error={errors.includes("lastName") ? "Please enter your last name" : null}
           label="Last name"
+          type="text"
           placeholder="Last name"
           name="lastName"
-          value={newUser.lastName}
-          onChange={handleChange}
         />
-      </div>
-      <input
-        fluid
-        error={
-          errors.includes("email")
-            ? { content: "Please enter an email address", pointing: "above" }
-            : null
-        }
-        label="Email"
-        type="email"
-        placeholder="example@email.com"
-        name="email"
-        value={newUser.email}
-        onChange={handleChange}
-      />
-      <div widths="equal">
-        <input
-          fluid
-          error={
-            errors.includes("password")
-              ? { content: "Please enter a password", pointing: "above" }
-              : null
-          }
+        <FormInput
+          error={errors.includes("email") ? "Please enter an email address" : null}
+          label="Email"
+          type="email"
+          placeholder="example@email.com"
+          name="email"
+        />
+        <FormInput
+          error={errors.includes("password") ? "Please enter password" : null}
           label="Password"
           type="password"
           placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
           name="password"
-          value={newUser.password}
-          onChange={handleChange}
         />
-        <input
-          fluid
-          error={
-            !passwordsMatch
-              ? { content: "Passwords do not match", pointing: "above" }
-              : null
-          }
+        <FormInput
+          error={errors.includes("Passwords do not match.") ? "Passwords do not match" : null}
           label="Confirm Password"
           type="password"
           placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
-          value={confirmPassword}
-          onChange={handleConfirm}
+          name="confirmPassword"
         />
-      </div>
-      <button>Register</button>
-      <div>
-        {origin === "login" ? (
-          <Link to="/login/sign-in">Already have an account?</Link>
-        ) : (
-          <button id="loginSwitch" onClick={changeView}>
-            Already have an account?
-          </button>
-        )}
-      </div>
-    </form>
+        <div className="flex items-center justify-center">
+          <button type="submit">Register</button>
+        </div>
+        <div className="flex justify-center">
+          {origin === "login" ? (
+            <Link to="/login/sign-in">Already have an account?</Link>
+          ) : (
+            <button id="loginSwitch" onClick={changeView} type="button">
+              Already have an account?
+            </button>
+          )}
+        </div>
+      </form>
+    </>
   );
 };
 

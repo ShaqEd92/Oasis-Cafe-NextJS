@@ -10,8 +10,8 @@ const LoginWallpaper = () => (
             <Image
                 src="/logo.png"
                 alt="coffee cup logo"
-                width={500}
-                height={500}
+                width={350}
+                height={450}
             />
         </span>
         <span className="q4"></span>

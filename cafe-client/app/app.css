@@ -1,6 +1,11 @@
 @import '@fontsource/fredericka-the-great';
 @import '@fontsource/josefin-sans';
 
+.sign-in-form h2 {
+  font-family: "Josefin Slab", serif;
+  color: red;
+}
+
 .cart-page {
   background-color: #e8e9ed;
   min-height: 90vh;
@@ -864,8 +869,8 @@ section {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  -ms-flex-direction: row;
-  flex-direction: row;
+  -ms-flex-direction: column;
+  flex-direction: column;
   width: 100%;
   height: 100vh;
   background-color: #13152a;
@@ -874,25 +879,22 @@ section {
 
 .sign-in-page form {
   z-index: 2;
+  opacity: 0.9;
   background-color: #e8e9ed;
+  height: fit-content;
   height: -webkit-fit-content;
   height: -moz-fit-content;
-  height: fit-content;
-  min-width: 30%;
-  padding: 2% 4%;
-  border-radius: 12px;
-  -webkit-border-radius: 12px;
-  -moz-border-radius: 12px;
-  -ms-border-radius: 12px;
-  -o-border-radius: 12px;
-  -webkit-box-shadow: 5px 5px 10px 8px black;
+  min-width: 25%;
+  padding: 1% 2%;
   box-shadow: 5px 5px 10px 8px black;
+  -webkit-box-shadow: 5px 5px 10px 8px black;
 }
 
-.sign-in-page form h2 {
-  font-family: "Josefin Slab", serif;
-  color: #13152a;
+.sign-in-page h1 {
+  font-family: "Fredericka the Great", cursive;
+  color: #aaabbb;
   text-align: center;
+  font-size: xx-large;
 }
 
 .sign-in-page form label {
@@ -908,6 +910,8 @@ section {
   font-weight: lighter !important;
   opacity: 0.85;
   font-family: "Josefin Slab", serif !important;
+  padding: 2%;
+  font-size: 18px;
 }
 
 .sign-in-page form button:hover {
