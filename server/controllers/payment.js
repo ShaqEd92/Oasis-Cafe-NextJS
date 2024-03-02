@@ -7,13 +7,13 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
 export const generateOrderID = () => {
     const selection =
-      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVQXYZ0123456789";
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVQXYZ0123456789";
     let id = "";
     for (let i = 0; i < 10; i++) {
-      id += selection[Math.floor(Math.random() * 62)];
+        id += selection[Math.floor(Math.random() * 62)];
     }
     return id;
-  };
+};
 
 const calculateFinalAmount = (cart) => {
     let subTotal = 0;
@@ -30,14 +30,12 @@ const calculateFinalAmount = (cart) => {
 export const preparePayment = async (req, res) => {
     const cart = req.body.cartItems;
     const customerId = req.body.customerId;
-    // const email = req.body.email;
-    // const shippingName = req.body.name;
-    // const shippingAddress  = req.body.shippingAddress;
+    const email = req.body.personalInfo.email;
+    const shippingName = req.body.personalInfo.name;
+    const shippingAddress = req.body.deliveryInfo;
 
     const amount = calculateFinalAmount(cart);
     const orderId = generateOrderID();
-
-    //ToDo Send shipping address object
 
     if (customerId === "guest") {
         const paymentIntent = await stripe.paymentIntents.create({
@@ -47,11 +45,11 @@ export const preparePayment = async (req, res) => {
             metadata: {
                 orderId: orderId
             },
-            // receipt_email: email,
-            // shipping: {
-            //     name: shippingName,
-            //     address: shippingAddress    
-            // },
+            receipt_email: email,
+            shipping: {
+                name: shippingName,
+                address: shippingAddress
+            },
             automatic_payment_methods: {
                 enabled: true,
             },
@@ -66,11 +64,11 @@ export const preparePayment = async (req, res) => {
             metadata: {
                 orderId: orderId
             },
-            // receipt_email: email,
-            // shipping: {
-            //     name: shippingName,
-            //     address: shippingAddress    
-            // },
+            receipt_email: email,
+            shipping: {
+                name: shippingName,
+                address: shippingAddress
+            },
             automatic_payment_methods: {
                 enabled: true,
             },

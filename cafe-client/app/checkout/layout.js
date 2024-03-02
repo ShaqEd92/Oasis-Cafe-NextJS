@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import CheckoutNavigation from "../ui/checkout/checkout-navigation";
 import OrderSummary from "../ui/checkout/order-summary";
@@ -9,7 +10,7 @@ import { useCartItemsStore } from "../../store/cart";
 
 const Layout = ({ children }) => {
 
-    //ToDo useEffect reroute if cart empty
+    const router = useRouter();
 
     const cartItems = useCartItemsStore((state) => state.cartItems);
 
@@ -21,6 +22,11 @@ const Layout = ({ children }) => {
         tax: 0,
         total: 0,
     });
+
+    useEffect(() => {
+        if (cartItems.length === 0) router.push("/cart")
+    }, [cartItems, router]);
+
 
     useEffect(() => {
         setCartTotal(0);
