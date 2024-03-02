@@ -1,48 +1,62 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import PersonalInput from "../ui/checkout/personal-input";
 import ShippingInput from "../ui/checkout/shipping-input";
+import { useInfoStore, useDeliveryStore } from "../../store/delivery";
 
 const Page = () => {
 
-    const [personalInformation, setPersonalInformation] = useState({
-        name: "",
-        email: "",
-    });
-    const [shippingInformation, setShippingInformation] = useState({
-        line1: "",
-        line2: "",
-        city: "",
-        state: "",
-        postal_code: "",
-        country: "US",
-    });
-    const [shippingSelectedValue, setShippingSelectedValue] = useState("");
+    const router = useRouter();
 
-    const handleShippingSelect = (event) => {
-        setShippingSelectedValue(event.target.value);
-    };
+    const [loading, setLoading] = useState(false);
+
+    const personalInfo = useInfoStore((state) => state.personalInfo);
+    const setPersonalInfo = useInfoStore((state) => state.create);
+    const deliveryInfo = useDeliveryStore((state) => state.deliveryInfo);
+    const setDeliveryInfo = useDeliveryStore((state) => state.create);
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        //ToDo Collect FormData save into State (create store for DeliveryInfo)
-        //ToDo Route to payment page
+        setLoading(true);
+        const formData = new FormData(event.currentTarget);
+
+        let guestInfo = {
+            name: formData.get('name'),
+            email: formData.get('email'),
+        }
+        setPersonalInfo(guestInfo);
+        let addressInfo = {
+            line1: formData.get('line1'),
+            line2: formData.get('line2'),
+            city: formData.get('city'),
+            state: formData.get('state'),
+            postal_code: formData.get('postal_code'),
+        }
+        setDeliveryInfo(addressInfo);
+
+
+        router.push("/checkout/payment")
     };
 
     return (
         <form className="delivery-form" onSubmit={handleSubmit}>
             <PersonalInput
-                personalInfo={personalInformation}
+                personalInfo={personalInfo}
             />
             <ShippingInput
-                shippingInfo={shippingInformation}
-                selectedValue={shippingSelectedValue}
-                handleSelect={handleShippingSelect}
+                deliveryInfo={deliveryInfo}
             />
             <div className="go-checkout-button">
-                <button type="submit">Proceed to Payment &#10095;</button>
+                {!loading ?
+                    <button type="submit">
+                        Proceed to Payment &#10095;
+                    </button>
+                    :
+                    <span className="animate-pulse">Collecting those details...</span>
+                }
             </div>
         </form>
     );
