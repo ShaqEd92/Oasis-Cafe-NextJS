@@ -8,6 +8,6 @@ export const useLoginStore = create((set) => ({
 
 export const useUserStore = create((set) => ({
     user: null,
-    logIn: () => set(() => ({ user: api.getUser() })),
-    logOut: () => set(() => ({ user: null })),
+    logUserIn: (userObject) => set(() => ({ user: userObject })),
+    logUserOut: () => set(() => ({ user: null })),
 }));

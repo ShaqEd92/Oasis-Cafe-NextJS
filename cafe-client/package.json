@@ -11,11 +11,15 @@
   "dependencies": {
     "@fontsource/fredericka-the-great": "^5.0.18",
     "@fontsource/josefin-sans": "^5.0.18",
+    "@stripe/react-stripe-js": "^2.5.1",
+    "@stripe/stripe-js": "^3.0.6",
     "axios": "^1.6.7",
     "next": "14.1.0",
     "react": "^18",
     "react-dom": "^18",
     "react-icons": "^5.0.1",
+    "semantic-ui-css": "^2.5.0",
+    "semantic-ui-react": "^2.1.5",
     "zustand": "^4.5.1"
   },
   "devDependencies": {

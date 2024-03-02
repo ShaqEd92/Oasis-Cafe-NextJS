@@ -1,6 +1,6 @@
 import LoginWallpaper from "../ui/login-wallpaper";
 
-const Page = ({ children }) => {
+const Layout = ({ children }) => {
     return (
         <div className="sign-in-page">
             <LoginWallpaper />
@@ -9,4 +9,4 @@ const Page = ({ children }) => {
     );
 };
 
-export default Page;
+export default Layout;

@@ -2,37 +2,31 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
-import { useLoginStore } from "../../../store/user"
+import FormInput from "../../ui/form-input";
+import { login } from "../../../api/userApi";
+import { useLoginStore, useUserStore } from "../../../store/user"
 
-const Page = ({ origin, changeView, close }) => {
+const Page = () => {
 
-    //! History
-    //? https://stackoverflow.com/questions/56857880/how-to-get-history-and-match-in-this-props-in-nextjs  
-    //  let history = useHistory();
+    //ToDo Conditional routing based on how login modal accessed
+
+    const router = useRouter();
 
     const loggedIn = useLoginStore((state) => state.loggedIn);
+    const logIn = useLoginStore((state) => state.logIn);
+    const logUserIn = useUserStore((state) => state.logUserIn);
 
-    const [loginUser, setLoginUser] = useState({
-        email: "",
-        password: "",
-    });
+    const [error, setError] = useState("");
     const [errors, setErrors] = useState([]);
+    const [loading, setLoading] = useState(false);
 
-    //   useEffect(() => {
-    //     if (loggedIn) {
-    //       origin === "login"
-    //         ? history.push("/menu")
-    //         : history.push("/subscribe");
-    //     }
-    //     if (loginFailure) {
-    //       setErrors([...errors, "Incorrect email or password."]);
-    //       dispatch(resetLoginFailure());
-    //     }
-    //   }, [loggedIn, history, errors, dispatch, origin]);
+    useEffect(() => {
+        if (loggedIn) router.push("/menu")
+    }, [router, loggedIn]);
 
-    const formIsValid = () => {
+    const formIsValid = (loginUser) => {
         let _errors = [];
         for (let [key, val] of Object.entries(loginUser)) {
             if (!val.trim()) {
@@ -43,66 +37,67 @@ const Page = ({ origin, changeView, close }) => {
         return _errors.length === 0;
     };
 
-    const handleChange = ({ target }) => {
-        setErrors("");
-        setLoginUser({ ...loginUser, [target.name]: target.value });
-    };
-
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (!formIsValid()) return;
-        dispatch(getUser(loginUser));
-        if (origin === "subscribe") close();
+        setLoading(true);
+        const formData = new FormData(event.currentTarget);
+
+        let loginUser = {
+            email: formData.get('email'),
+            password: formData.get('password'),
+        }
+
+        if (!formIsValid(loginUser)) {
+            setLoading(false);
+            return;
+        }
+
+        // Fetch User saved in MongoDB => save into state 
+        login(loginUser).then((response) => {
+            logIn();
+            const { password, ...userState } = response.data;
+            logUserIn(userState);
+        }).catch((err) => {
+            if (err.response.request.status === 404) {
+                setLoading(false);
+                setError("Email or password is incorrect");
+            }
+        })
+
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <h2>{`Log in to Oasis Caf\u00E9`}</h2>
-            <div>
-                <input
-                    fluid
-                    error={
-                        errors.includes("email")
-                            ? {
-                                content: "Please enter your email address",
-                                pointing: "below",
-                            }
-                            : null
-                    }
-                    label="Email"
+        <>
+            <h1 className="mb-2 font-bold">{`Oasis Caf\u00E9`}</h1>
+            <form onSubmit={handleSubmit}>
+                <div className="jose text-contrast text-center mb-2 text-xl font-semibold">{error}</div>
+                <FormInput
+                    error={errors.includes("email") ? "Please enter your email address" : null}
+                    label="Email (Username)"
                     type="email"
-                    name="email"
                     placeholder="example@email.com"
-                    value={loginUser.username}
-                    onChange={handleChange}
+                    name="email"
                 />
-            </div>
-            <div>
-                <input
-                    fluid
-                    error={
-                        errors.includes("password")
-                            ? { content: "Please enter your password", pointing: "below" }
-                            : null
-                    }
+                <FormInput
+                    error={errors.includes("password") ? "Please enter your password" : null}
                     label="Password"
                     type="password"
-                    name="password"
                     placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
-                    value={loginUser.password}
-                    onChange={handleChange}
+                    name="password"
                 />
-            </div>
-            <button>Sign in</button>
-            <div>
-                {origin === "login" ? (
-                    <Link href="/login/sign-up">Don't Have An Account?</Link>
-                ) : (
-                    //   <button id="loginSwitch" onClick={changeView}>Don't Have An Account?</button>
-                    <Link href="/login/sign-up">Don't Have An Account?</Link>
-                )}
-            </div>
-        </form>
+                <div className="flex items-center justify-center">
+                    <button disabled={loading} type="submit">
+                        {loading &&
+                            <div className="animate-spin rounded-full h-4 w-4 border-b-4 border-gray-900 mr-4"></div>
+                        }
+                        {loading ? `Signing you in...` : `Sign in`}
+                    </button>
+                </div>
+                <div className="flex justify-center">
+                    <Link href="/login/sign-up" className="login-switch">Don&apos;t Have An Account?</Link>
+                </div>
+            </form>
+        </>
     );
 };
 
