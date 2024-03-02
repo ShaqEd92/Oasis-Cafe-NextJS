@@ -2,6 +2,8 @@ import axios from "axios";
 
 const BASE_URL = "http://localhost:5000";
 
+export const preparePayment = (cart) => axios.post(`${BASE_URL}/prepare-payment`, cart);
+
 export const createCharge = (charge) =>
   axios.post(`${BASE_URL}/charge`, charge);
 

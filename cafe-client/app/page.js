@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 import { useLoginStore } from "../store/user"
 
-const HomePage = () => {
+const Page = () => {
   const loggedIn = useLoginStore((state) => state.loggedIn);
 
   return (
@@ -36,4 +36,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default Page;

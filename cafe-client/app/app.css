@@ -1,6 +1,10 @@
 @import '@fontsource/fredericka-the-great';
 @import '@fontsource/josefin-sans';
 
+.jose {
+  font-family: "Josefin Slab", serif;
+}
+
 .sign-in-form h2 {
   font-family: "Josefin Slab", serif;
   color: red;
@@ -354,6 +358,8 @@ section {
   text-align: center;
   color: #c94259;
   width: 80%;
+  font-size: xx-large;
+  font-weight: bold;
 }
 
 #checkoutPage main {
@@ -417,53 +423,41 @@ section {
   color: #c94259;
 }
 
-.checkout-form label {
+.delivery-form label {
   font-family: "Josefin Slab", serif;
 }
 
-.checkout-form input {
+.delivery-form input {
   margin: 0% 1% 3% 2%;
 }
 
-.checkout-form form {
+.delivery-form {
   margin: auto;
   background-color: white;
   -webkit-box-shadow: 5px 5px 10px 3px silver;
   box-shadow: 5px 5px 10px 3px silver;
-  width: 90%;
+  width: 55%;
   padding: 2%;
 }
 
 .order-summary {
-  display: -webkit-box;
-  display: -ms-flexbox;
+  position: absolute;
+  top: 20%;
+  right: 5%;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
   flex-direction: column;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
   justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
-  -webkit-box-flex: 1;
-  -ms-flex: 1;
   flex: 1;
-  -webkit-box-shadow: 5px 5px 10px 3px #aaabbb;
   box-shadow: 5px 5px 10px 3px #aaabbb;
   background-color: white;
-  padding: 2% 0;
+  padding: 2% 3%;
 }
 
 .order-summary table {
-  width: 55%;
+  width: 100%;
   font-family: "Josefin Slab", serif;
-}
-
-.order-summary table hr {
-  width: 150%;
+  text-align: right;
 }
 
 .go-checkout-button {
@@ -480,39 +474,6 @@ section {
   font-family: "Fredericka the Great", cursive;
   font-weight: bold;
   letter-spacing: 1px;
-}
-
-.checkout-dropin-container {
-  text-align: right;
-  background-color: white;
-  height: 100%;
-  width: 90%;
-}
-
-.checkout-dropin-container form {
-  background: transparent;
-  border: none;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
-
-.checkout-dropin-container button {
-  background-color: #2e9cca;
-  color: #e8e9ed;
-  border: none;
-  font-family: "Josefin Slab", serif;
-  font-size: 20px;
-  letter-spacing: 1px;
-  padding: 1%;
-  border-radius: 3px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  -ms-border-radius: 3px;
-  -o-border-radius: 3px;
-}
-
-.checkout-dropin-container button:hover {
-  opacity: 0.85;
 }
 
 .post-checkout {
@@ -536,53 +497,6 @@ section {
   color: green;
 }
 
-#quickPayments {
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
-  width: 90%;
-  margin: 0 auto;
-  margin-right: 5%;
-  background-color: #e8e9ed;
-  -webkit-box-shadow: 5px 5px 10px 3px #aaabbb;
-  box-shadow: 5px 5px 10px 3px #aaabbb;
-  background-color: white;
-  padding: 2% 0;
-}
-
-#quickPayments h3 {
-  font-family: "Josefin Slab", serif;
-}
-
-#quickPayments p {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  cursor: pointer;
-  border: 2px dotted #2e9cca;
-  padding: 2%;
-  font-family: "Josefin Slab", serif;
-  width: 35%;
-}
-
-#quickPayments p:hover {
-  border: 2px solid #c94259;
-}
-
-#quickPayments img {
-  height: 25px;
-}
-
 @media (max-width: 1400px) {
   #checkoutPage main {
     margin-top: 25vh !important;
@@ -604,114 +518,29 @@ section {
     margin-top: 20vh !important;
   }
 
-  .checkout-steps {
-    display: none;
-  }
-
   .checkout-form {
     margin-top: 5%;
     width: 100%;
     padding: 0;
   }
 
-  .checkout-form form {
-    padding: 0;
+  .delivery-form {
+    padding: 3%;
+    width: 90%;
   }
 
   .order-summary {
-    width: 90%;
+    position: inherit;
+    width: 65%;
     margin: auto;
     margin-top: 5%;
+    padding: 2% 0;
   }
 
-  .checkout-dropin-container {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    width: 90%;
+  .order-summary table {
+    width: 75%;
     margin: auto;
   }
-
-  .checkout-dropin-container form {
-    background: transparent;
-    border: none;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-  }
-}
-
-.form-row {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-box-pack: start;
-  -ms-flex-pack: start;
-  justify-content: flex-start;
-}
-
-.form-row span {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-align: start;
-  -ms-flex-align: start;
-  align-items: flex-start;
-  margin: 1% 2%;
-}
-
-.form-row label {
-  margin-bottom: 2%;
-  font-family: "Josefin Slab", serif;
-}
-
-.form-row input {
-  border: none;
-  border-bottom: 1px solid #25274d;
-  outline-style: none;
-  font-family: "Josefin Slab", serif;
-  margin-top: 10%;
-}
-
-.form-row select {
-  border: none;
-  border-bottom: 1px solid #25274d;
-  outline-style: none;
-  font-family: "Josefin Slab", serif;
-  margin-top: 10%;
 }
 
 .home-page {
@@ -912,6 +741,9 @@ section {
   font-family: "Josefin Slab", serif !important;
   padding: 2%;
   font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .sign-in-page form button:hover {
@@ -920,6 +752,7 @@ section {
 
 .sign-in-page form a {
   font-family: "Josefin Slab", serif;
+
 }
 
 .sign-in-page form a:hover {
@@ -967,14 +800,15 @@ section {
   opacity: 0.85;
 }
 
-#loginSwitch {
+.login-switch {
   font-family: "Josefin Slab", serif;
   background: transparent !important;
   color: #2e9cca !important;
   border: none !important;
+  margin-top: 2%;
 }
 
-#loginSwitch:hover {
+.login-switch:hover {
   color: #29648a !important;
 }
 

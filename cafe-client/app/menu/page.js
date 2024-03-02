@@ -3,7 +3,7 @@
 import Image from "next/image";
 
 import { coffeeMenu } from "../../data/inventory";
-import { useCartItemsStore } from "../../store/cart"
+import { useCartItemsStore } from "../../store/cart";
 
 const Page = () => {
 

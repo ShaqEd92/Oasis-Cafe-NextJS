@@ -7,6 +7,8 @@ const FormInput = ({ error, label, type, placeholder, name, value }) => {
                 {label}
             </label>
             <input
+                id={name}
+                autoComplete="false"
                 type={type}
                 placeholder={placeholder}
                 name={name}

@@ -1,37 +1,31 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import FormInput from "../../ui/form-input"
-import { customerCreate } from "../../../api/paymentApi";
+import FormInput from "../../ui/form-input";
+import { customerCreate, customerDelete } from "../../../api/paymentApi";
 import { register } from "../../../api/userApi";
-import { useLoginStore } from "../../../store/user";
+import { useLoginStore, useUserStore } from "../../../store/user";
 
-const Page = ({ origin, changeView, close }) => {
+const Page = () => {
+
+  //ToDo Conditional routing based on how login modal accessed
 
   const router = useRouter();
 
   const loggedIn = useLoginStore((state) => state.loggedIn);
   const logIn = useLoginStore((state) => state.logIn);
+  const logUserIn = useUserStore((state) => state.logUserIn);
 
-  const [newUser, setNewUser] = useState({});
+  const [error, setError] = useState("");
   const [errors, setErrors] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const ref = useRef(null);
-
-  // TODO Conditional roouting based on how login modal accessed
-  // useEffect(() => {
-  //   if (loggedIn) {
-  //     origin === "login"
-  //       ? history.push("/menu")
-  //       : history.push("/subscribe");
-  //   }
-  //   else {
-  //     setErrors([...errors, "Registration failure. Please try again."]);
-  //   }
-  // }, [loggedIn, errors, origin]);
+  useEffect(() => {
+    if (loggedIn) router.push("/menu")
+  }, [router, loggedIn]);
 
   const formIsValid = (userObject) => {
     let _errors = [];
@@ -46,10 +40,10 @@ const Page = ({ origin, changeView, close }) => {
   };
 
   const handleSubmit = async (event) => {
-    // TODO Immediately enable loading visual of some sort
     event.preventDefault();
+    setLoading(true);
     const formData = new FormData(event.currentTarget);
-
+    
     let userObject = {
       firstName: formData.get('firstName'),
       lastName: formData.get('lastName'),
@@ -58,39 +52,39 @@ const Page = ({ origin, changeView, close }) => {
       confirmPassword: formData.get('confirmPassword')
     }
 
-    setNewUser(userObject)
-    if (!formIsValid(userObject)) return;
+    if (!formIsValid(userObject)) {
+      setLoading(false);
+      return;
+    }
 
+    // Create Stripe Customer
     customerCreate(userObject).then((response) => {
-      if (response.status === 200) {
-        let user = {
-          ...userObject,
-          stripeId: response.data.id
-        }
-        register(user).then((response) => {
-          if (response.status === 201) { 
-            logIn(true)
-            router.push("/menu")
-          } else {
-            // TODO Create div to display this error
-            // TODO Also, delete Stripe user if mongoDB user not successfully created
-            setErrors("Looks like something went wrong...")
-          }
-        })
+      let user = {
+        ...userObject,
+        stripeId: response.data.id
       }
-      else {
-        setErrors("Looks like something went wrong...")
-      }
+      // Create customer user in MongoDB
+      register(user).then((response) => {
+        const { password, confirmPassword, ...userState } = user;
+        logIn()
+        logUserIn(userState)
+      }).catch((err) => {
+        //ToDo Immediately delete Stripe user if MongoDB user not successfully created
+        customerDelete(user.stripeId)
+        setLoading(false);
+        setError(err.response.data.message)
+      })
+    }).catch((err) => {
+      setLoading(false);
+      setErrors("Looks like something went wrong...")
     })
-
-    // TODO Conditional roouting based on how login modal accessed
-    // if (origin === "subscribe") close();
   };
 
   return (
     <>
       <h1 className="mb-2 font-bold">{`Oasis Caf\u00E9`}</h1>
-      <form ref={ref} onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
+        <div className="jose text-contrast text-center mb-2 text-xl font-semibold">{error}</div>
         <FormInput
           error={errors.includes("firstName") ? "Please enter your first name" : null}
           label="First name"
@@ -107,7 +101,7 @@ const Page = ({ origin, changeView, close }) => {
         />
         <FormInput
           error={errors.includes("email") ? "Please enter an email address" : null}
-          label="Email"
+          label="Email (Username)"
           type="email"
           placeholder="example@email.com"
           name="email"
@@ -127,16 +121,15 @@ const Page = ({ origin, changeView, close }) => {
           name="confirmPassword"
         />
         <div className="flex items-center justify-center">
-          <button type="submit">Register</button>
+          <button disabled={loading} type="submit">
+            {loading &&
+              <div className="animate-spin rounded-full h-4 w-4 border-b-4 border-gray-900 mr-4"></div>
+            }
+            {loading ? `Creating your account...` : `Register`}
+          </button>
         </div>
         <div className="flex justify-center">
-          {origin === "login" ? (
-            <Link to="/login/sign-in">Already have an account?</Link>
-          ) : (
-            <button id="loginSwitch" onClick={changeView} type="button">
-              Already have an account?
-            </button>
-          )}
+          <Link href="/login/sign-in" className="login-switch">Already have an account?</Link>
         </div>
       </form>
     </>

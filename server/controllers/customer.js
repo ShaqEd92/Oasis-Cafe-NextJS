@@ -19,7 +19,7 @@ export const customerCreate = async (req, res) => {
 
 export const customerRetrieve = async (req, res) => {
   try {
-    const customer = await stripe.customers.retrieve('cus_NffrFeUfNV2Hib');
+    const customer = await stripe.customers.retrieve(req.params.id);
     res.json(customer);
   } catch (error) {
     res.json(error);
@@ -31,5 +31,10 @@ export const customerUpdate = async (req, res) => {
 };
 
 export const customerDelete = async (req, res) => {
-
+  try {
+    const customer = await stripe.customers.del(req.params.id);
+    res.json(customer);
+  } catch (error) {
+    res.json(error);
+  }
 };
