@@ -77,3 +77,11 @@ export const preparePayment = async (req, res) => {
     }
 }
 
+export const getPaymentInfo = async (req, res) => {
+    const paymentIntentId = req.params.id;
+
+    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId)
+    const paymentMethod = await stripe.paymentMethods.retrieve(paymentIntent.payment_method);
+    
+    res.json({ paymentIntent: paymentIntent, paymentMethod: paymentMethod });
+}

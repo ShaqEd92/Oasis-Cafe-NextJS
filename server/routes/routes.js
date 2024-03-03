@@ -1,7 +1,7 @@
 import express from "express";
 
 import { login, register } from "../controllers/user.js";
-import { preparePayment } from "../controllers/payment.js";
+import { getPaymentInfo, preparePayment } from "../controllers/payment.js";
 import {
   customerCreate,
   customerRetrieve,
@@ -32,6 +32,8 @@ router.post("/users/login", login);
 // Payment
 
 router.post("/prepare-payment", preparePayment)
+
+router.get("/payment-id/:id", getPaymentInfo)
 
 // Customer
 

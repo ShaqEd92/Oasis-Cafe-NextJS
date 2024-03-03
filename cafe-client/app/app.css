@@ -5,6 +5,10 @@
   font-family: "Josefin Slab", serif;
 }
 
+.fred {
+  font-family: "Fredericka the Great", cursive;
+}
+
 .sign-in-form h2 {
   font-family: "Josefin Slab", serif;
   color: red;
@@ -1184,38 +1188,17 @@ section {
 }
 
 .transaction-results-page {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
   flex-direction: column;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
   justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
   background-color: #13152a;
   height: 100vh;
 }
 
-.transaction-results-page div {
-  padding: 5%;
-}
-
-.transaction-results-page h1,
-.transaction-results-page h3,
 .transaction-results-page p {
   font-family: "Josefin Slab", serif;
   color: #25274d;
-}
-
-.transaction-results-page h1 span,
-.transaction-results-page h3 span,
-.transaction-results-page p span {
-  font-weight: bold;
 }
 
 .transaction-results-page a {
@@ -1224,10 +1207,6 @@ section {
 
 .transaction-results-page a:hover {
   color: #2e9cca !important;
-}
-
-.transaction-results-page code {
-  color: red;
 }
 
 #orderResults span {
