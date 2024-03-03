@@ -11,8 +11,6 @@ import { useLoginStore, useUserStore } from "../../../store/user";
 
 const Page = () => {
 
-  //ToDo Conditional routing based on how login modal accessed
-
   const router = useRouter();
 
   const loggedIn = useLoginStore((state) => state.loggedIn);
@@ -69,7 +67,6 @@ const Page = () => {
         logIn()
         logUserIn(userState)
       }).catch((err) => {
-        //ToDo Immediately delete Stripe user if MongoDB user not successfully created
         customerDelete(user.stripeId)
         setLoading(false);
         setError(err.response.data.message)
