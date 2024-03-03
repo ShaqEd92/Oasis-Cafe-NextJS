@@ -2,8 +2,8 @@ import { create } from 'zustand';
 
 export const useInfoStore = create((set) => ({
     personalInfo: {
-        name: "Test",
-        email: "test@email.com",
+        name: "Bruce",
+        email: "bruce@gotham.net",
     },
     create: (info) => set(() => ({
         personalInfo: {
@@ -15,11 +15,11 @@ export const useInfoStore = create((set) => ({
 
 export const useDeliveryStore = create((set) => ({
     deliveryInfo: {
-        line1: "123 Main St",
-        line2: "Apt. 4",
-        city: "Chicago",
-        state: "IL",
-        postal_code: "60606",
+        line1: "1007 Mountain Drive",
+        line2: "Wayne Manor",
+        city: "Gotham",
+        state: "NJ",
+        postal_code: "12345",
         country: "US",
     },
     create: (info) => set(() => ({

@@ -10,8 +10,6 @@ import { useLoginStore, useUserStore } from "../../../store/user"
 
 const Page = () => {
 
-    //ToDo Conditional routing based on how login modal accessed
-
     const router = useRouter();
 
     const loggedIn = useLoginStore((state) => state.loggedIn);

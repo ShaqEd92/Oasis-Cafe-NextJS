@@ -5,6 +5,19 @@ dotenv.config();
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
+const PRICES = {
+    COFFEE: 2.50,
+    LATTE: 3,
+    MOCHA: 3.5,
+    TEA: 1.5
+}
+
+const getPrice = (name) => {
+    let val = name.toUpperCase();
+    let price = PRICES[val];
+    return price;
+}
+
 export const generateOrderID = () => {
     const selection =
         "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVQXYZ0123456789";
@@ -17,7 +30,7 @@ export const generateOrderID = () => {
 
 const calculateFinalAmount = (cart) => {
     let subTotal = 0;
-    cart.map((item) => subTotal += (item.price * item.quantity));
+    cart.map((item) => subTotal += (getPrice(item.name) * item.quantity));
 
     let shipping = subTotal > 25 ? 0 : 5;
     let tax = (subTotal + shipping) * 0.1025;
@@ -82,6 +95,6 @@ export const getPaymentInfo = async (req, res) => {
 
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId)
     const paymentMethod = await stripe.paymentMethods.retrieve(paymentIntent.payment_method);
-    
+
     res.json({ paymentIntent: paymentIntent, paymentMethod: paymentMethod });
 }
