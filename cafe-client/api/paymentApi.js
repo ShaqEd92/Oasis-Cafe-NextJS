@@ -4,8 +4,7 @@ const BASE_URL = "http://localhost:5000";
 
 export const preparePayment = (cart) => axios.post(`${BASE_URL}/prepare-payment`, cart);
 
-export const createCharge = (charge) =>
-  axios.post(`${BASE_URL}/charge`, charge);
+export const getPaymentInfo = (id) => axios.get(`${BASE_URL}/payment-id/${id}`);
 
 // CUSTOMER
 
@@ -26,14 +25,14 @@ export const customerDelete = (id) =>
 export const paymentMethodCreate = (paymentMethod) =>
   axios.post(`${BASE_URL}/payment-create`, paymentMethod);
 
-export const paymentMethodRetrieve = (token) =>
-  axios.get(`${BASE_URL}/payment-retrieve/${token}`);
+export const paymentMethodRetrieve = (id) =>
+  axios.get(`${BASE_URL}/payment-retrieve/${id}`);
 
-export const paymentMethodUpdate = (token, paymentMethod) =>
-  axios.put(`${BASE_URL}/payment-update/${token}`, paymentMethod);
+export const paymentMethodUpdate = (id, paymentMethod) =>
+  axios.put(`${BASE_URL}/payment-update/${id}`, paymentMethod);
 
-export const paymentMethodDelete = (token) =>
-  axios.delete(`${BASE_URL}/payment-delete/${token}`);
+export const paymentMethodDelete = (id) =>
+  axios.delete(`${BASE_URL}/payment-delete/${id}`);
 
   // SUBSCRIPTION
 

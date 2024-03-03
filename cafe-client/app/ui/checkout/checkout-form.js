@@ -1,11 +1,19 @@
+"use client";
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { AddressElement, useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js';
 
 const CheckoutForm = () => {
     const stripe = useStripe();
     const elements = useElements();
+    const router = useRouter();
+
+    const [disabled, setDisabled] = useState(false);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setDisabled(true)
 
         if (!stripe || !elements) {
             // Stripe.js has not yet loaded or elements not available
@@ -18,12 +26,11 @@ const CheckoutForm = () => {
         });
 
         if (result.error) {
-            // Handle error
+            //ToDo Handle transaction failure
+            setDisabled(false);
             console.log(result.error.message);
         } else {
-            // Handle success
-            console.log(result);
-            console.log('Payment successful');
+            router.push(`/success/${result.paymentIntent.id}`)
         }
     };
 
@@ -36,6 +43,7 @@ const CheckoutForm = () => {
                 <PaymentElement className='w-full mt-4' />
                 <button
                     type="submit"
+                    disabled={disabled}
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition duration-150 ease-in-out mt-4 w-1/4">
                     Pay
                 </button>
