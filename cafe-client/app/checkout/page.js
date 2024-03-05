@@ -42,23 +42,25 @@ const Page = () => {
     };
 
     return (
-        <form className="delivery-form" onSubmit={handleSubmit}>
-            <PersonalInput
-                personalInfo={personalInfo}
-            />
-            <ShippingInput
-                deliveryInfo={deliveryInfo}
-            />
-            <div className="go-checkout-button">
-                {!loading ?
-                    <button type="submit">
-                        Proceed to Payment &#10095;
-                    </button>
-                    :
-                    <span className="animate-pulse">Collecting those details...</span>
-                }
-            </div>
-        </form>
+        <section className="checkout-form">
+            <form className="delivery-form" onSubmit={handleSubmit}>
+                <PersonalInput
+                    personalInfo={personalInfo}
+                />
+                <ShippingInput
+                    deliveryInfo={deliveryInfo}
+                />
+                <div className="go-checkout-button">
+                    {!loading ?
+                        <button type="submit">
+                            Proceed to Payment &#10095;
+                        </button>
+                        :
+                        <span className="animate-pulse">Collecting those details...</span>
+                    }
+                </div>
+            </form>
+        </section>
     );
 };
 

@@ -41,11 +41,13 @@ const Page = () => {
     };
 
     return clientSecret ? (
-        <Elements stripe={stripePromise} options={options}>
-            <CheckoutForm />
-        </Elements>
+        <section className="checkout-form">
+            <Elements stripe={stripePromise} options={options}>
+                <CheckoutForm />
+            </Elements>
+        </section>
     ) : (
-        <></>
+        <section className="checkout-form"></section>
     );
 };
 

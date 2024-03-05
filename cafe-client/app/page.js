@@ -27,7 +27,7 @@ const Page = () => {
       <p className="tag-line">Coffee brought to your doorsteps</p>
       <div className="navigation">
         <Link href="/menu">Menu</Link>
-        <Link href="/subscribe">Subscriptions</Link>
+        {/* <Link href="/subscribe">Subscriptions</Link> */}
         {!loggedIn &&
           <Link href="/login/sign-in">Sign In</Link>
         }

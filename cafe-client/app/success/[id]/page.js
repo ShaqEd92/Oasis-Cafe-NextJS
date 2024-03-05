@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 import { getPaymentInfo } from "../../../api/paymentApi"
 import { formatter } from "../../../data/functions"
@@ -9,7 +9,6 @@ import Link from "next/link";
 
 const Page = () => {
 
-    const router = useRouter();
     const pathname = usePathname();
 
     const [ready, setReady] = useState(false)
@@ -52,7 +51,7 @@ const Page = () => {
                         <p className="font-bold">Delivering to:</p>
                         <div>
                             <p>
-                                {resultObject.delivery.line1}&nbsp;&nbsp;{resultObject.delivery.line2}
+                                {resultObject.delivery.line1}{resultObject.delivery.line2 && `, ${resultObject.delivery.line2}`}
                             </p>
                             <p>
                                 {resultObject.delivery.city},&nbsp;

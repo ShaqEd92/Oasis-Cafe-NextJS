@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import CheckoutNavigation from "../ui/checkout/checkout-navigation";
 import OrderSummary from "../ui/checkout/order-summary";
@@ -11,6 +11,7 @@ import { useCartItemsStore } from "../../store/cart";
 const Layout = ({ children }) => {
 
     const router = useRouter();
+    const pathname = usePathname();
 
     const cartItems = useCartItemsStore((state) => state.cartItems);
 
@@ -46,12 +47,10 @@ const Layout = ({ children }) => {
     return (
         <div id="checkoutPage">
             <CheckoutNavigation />
-            <h1>Coffee Cart Checkout</h1>
             <main>
+                <div id="filler"></div>
+                {children}
                 <OrderSummary orderObject={orderObject} />
-                <section className="checkout-form">
-                    {children}
-                </section>
             </main>
         </div>
     )

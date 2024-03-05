@@ -36,20 +36,20 @@ const NavigationBar = () => {
           </Link>
         </div>
         <div className="links">
-          <Link href="/" id="webName">
+          {/* <Link href="/" id="webName">
             {`Oasis Caf\u00E9`}
-          </Link>
-          <Link href="/menu" className={`link ${pathname === "/menu" ? "nav-selected" : ""}`}>
+          </Link> */}
+          {/* <Link href="/menu" className={`link ${pathname === "/menu" ? "nav-selected" : ""}`}>
             Menu
-          </Link>
-          {loggedIn && (
+          </Link> */}
+          {/* {loggedIn && (
             <Link href="/payment-methods" className={`link ${pathname === "/payment-methods" ? "nav-selected" : ""}`}>
               Wallet
             </Link>
-          )}
-          <Link href="/subscribe" className={`link ${pathname === "/subscribe" ? "nav-selected" : ""}`}>
+          )} */}
+          {/* <Link href="/subscribe" className={`link ${pathname === "/subscribe" ? "nav-selected" : ""}`}>
             Subscriptions
-          </Link>
+          </Link> */}
         </div>
         <div className="login-links">
           {!loggedIn && (
