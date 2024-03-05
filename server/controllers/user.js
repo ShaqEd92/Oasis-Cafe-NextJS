@@ -39,3 +39,16 @@ export const login = async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 };
+
+export const addAddress = async (req, res) => {
+  const { stripeId, address } = req.body
+  try {
+    const user = await User.findOneAndUpdate({
+      stripeId: stripeId,
+    }, { "$push": { deliveryAddresses: address } });
+    console.log(user)
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+}

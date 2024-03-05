@@ -38,3 +38,13 @@ export const customerDelete = async (req, res) => {
     res.json(error);
   }
 };
+
+export const customerPaymentMethods = async (req, res) => {
+  const customerId = req.params.id;
+  try {
+      const paymentMethods = await stripe.customers.listPaymentMethods(customerId);
+      res.json({ paymentMethods: paymentMethods });
+  } catch (error) {
+      res.json(error);
+  }
+};

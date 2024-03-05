@@ -121,9 +121,13 @@ const FullCart = ({ cartItems }) => {
                         <br />
                         <Link href="/checkout">Proceed to checkout</Link>
                         {loggedIn && (
-                            <Link href="/quick-checkout" id="quickCheckoutButton">
+                            <Link
+                                href="/checkout/quick"
+                                className="mt-4 flex justify-center items-center !bg-contrast !border-contrast 
+                                hover:!text-contrast hover:!bg-lighter"
+                            >
                                 <FaBoltLightning />
-                                QUICK CHECKOUT
+                                <span className="ml-2">QUICK CHECKOUT</span>
                             </Link>
                         )}
                     </div>

@@ -238,17 +238,6 @@ section {
   opacity: 0.75;
 }
 
-#quickCheckoutButton {
-  margin-top: 5%;
-  background-color: #c94259;
-  border: 1px solid #c94259;
-}
-
-#quickCheckoutButton:hover {
-  color: #c94259;
-  background-color: #e8e9ed;
-}
-
 .item-plus {
   -ms-grid-row: 1;
   -ms-grid-column: 1;
@@ -334,60 +323,45 @@ section {
 }
 
 #checkoutPage {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
+  flex-direction: row;
   justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
-  min-height: 75vh;
+  height: 100vh;
   width: 100%;
   background-color: #e8e9ed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-#checkoutPage h1 {
-  position: absolute;
-  top: 12vh;
-  font-family: "Fredericka the Great", cursive;
-  text-align: center;
-  color: #c94259;
-  width: 80%;
-  font-size: xx-large;
-  font-weight: bold;
 }
 
 #checkoutPage main {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -ms-flex-direction: row;
   flex-direction: row;
-  margin: 20vh 0 2vh 0;
-  -webkit-box-align: start;
-  -ms-flex-align: start;
+  align-items: center;
+  flex-direction: row;
+  justify-content: start;
   align-items: flex-start;
-  min-height: 80vh;
-  width: 60%;
+  width: 90%;
+}
+
+#filler {
+  flex: 1;
+}
+
+.order-summary {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  box-shadow: 5px 5px 10px 3px #aaabbb;
+  background-color: white;
+  padding: 2% 2%;
+  border-radius: 15px;
+}
+
+.order-summary table {
+  width: 100%;
+  font-family: "Josefin Slab", serif;
+  text-align: right;
 }
 
 .checkout-steps {
@@ -415,9 +389,7 @@ section {
 }
 
 .checkout-form {
-  -webkit-box-flex: 2;
-  -ms-flex: 2;
-  flex: 2;
+  flex: 6;
 }
 
 .checkout-form h4 {
@@ -442,26 +414,6 @@ section {
   box-shadow: 5px 5px 10px 3px silver;
   width: 55%;
   padding: 2%;
-}
-
-.order-summary {
-  position: absolute;
-  top: 20%;
-  right: 5%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  flex: 1;
-  box-shadow: 5px 5px 10px 3px #aaabbb;
-  background-color: white;
-  padding: 2% 3%;
-}
-
-.order-summary table {
-  width: 100%;
-  font-family: "Josefin Slab", serif;
-  text-align: right;
 }
 
 .go-checkout-button {
@@ -510,31 +462,17 @@ section {
   color: green;
 }
 
-@media (max-width: 1400px) {
-  #checkoutPage main {
-    margin-top: 25vh !important;
-  }
-}
-
 @media (max-width: 1200px) {
-  #checkoutPage {
-    width: 100%;
-  }
 
   #checkoutPage main {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
     flex-direction: column;
-    width: 100%;
-    padding: 0;
-    margin-top: 20vh !important;
   }
 
   .checkout-form {
     margin-top: 5%;
     width: 100%;
     padding: 0;
+    flex: 4;
   }
 
   .delivery-form {
@@ -627,20 +565,15 @@ section {
 }
 
 .navigation {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: space-evenly;
-  -ms-flex-pack: space-evenly;
-  justify-content: space-evenly;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
+  justify-content: center;
   align-items: center;
   width: 30%;
 }
 
 .navigation a {
   font-family: "Josefin Slab", serif;
+  margin: 0 5%;
   color: #2e9cca;
   text-decoration: none;
   font-size: 24px;

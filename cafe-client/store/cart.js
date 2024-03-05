@@ -4,7 +4,7 @@ export const useCartItemsStore = create((set) => ({
     cartItems: [{
         name: "Coffee",
         price: "2.50",
-        quantity: 3
+        quantity: 5
     }],
     add: (newCartItem) => set((state) => ({
         cartItems: [...state.cartItems, newCartItem]

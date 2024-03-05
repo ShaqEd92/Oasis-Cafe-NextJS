@@ -6,6 +6,10 @@ export const preparePayment = (cart) => axios.post(`${BASE_URL}/prepare-payment`
 
 export const getPaymentInfo = (id) => axios.get(`${BASE_URL}/payment-id/${id}`);
 
+// CHARGE
+
+export const prepareQuickPayment = (obj) => axios.post(`${BASE_URL}/prepare-quick-payment`, obj) 
+
 // CUSTOMER
 
 export const customerCreate = (customer) =>
@@ -20,6 +24,9 @@ export const customerUpdate = (id, customer) =>
 export const customerDelete = (id) =>
   Promise.resolve(axios.delete(`${BASE_URL}/customer-delete/${id}`));
 
+  export const customerPaymentMethods = (id) =>
+  Promise.resolve(axios.get(`${BASE_URL}/customer-payments/${id}`));
+
 // PAYMENT METHOD
 
 export const paymentMethodCreate = (paymentMethod) =>
@@ -31,8 +38,8 @@ export const paymentMethodRetrieve = (id) =>
 export const paymentMethodUpdate = (id, paymentMethod) =>
   axios.put(`${BASE_URL}/payment-update/${id}`, paymentMethod);
 
-export const paymentMethodDelete = (id) =>
-  axios.delete(`${BASE_URL}/payment-delete/${id}`);
+export const paymentMethodDetach = (id) =>
+  axios.delete(`${BASE_URL}/payment-detach/${id}`);
 
   // SUBSCRIPTION
 

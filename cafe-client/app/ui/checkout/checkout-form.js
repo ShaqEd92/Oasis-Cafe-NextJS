@@ -4,10 +4,18 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { AddressElement, useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js';
 
+import { useLoginStore, useUserStore } from "../../../store/user";
+import { useDeliveryStore } from "../../../store/delivery";
+import { addAddress } from "../../../api/userApi";
+
 const CheckoutForm = () => {
     const stripe = useStripe();
     const elements = useElements();
     const router = useRouter();
+
+    const loggedIn = useLoginStore((state) => state.loggedIn);
+    const user = useUserStore((state) => state.user);
+    const deliveryInfo = useDeliveryStore((state) => state.deliveryInfo);
 
     const [disabled, setDisabled] = useState(false);
     const [errors, setErrors] = useState("");
@@ -30,6 +38,8 @@ const CheckoutForm = () => {
             setDisabled(false);
             setErrors(result.error.message)
         } else {
+            if (loggedIn)
+                addAddress({ stripeId: user.stripeId, address: { ...deliveryInfo } })
             router.push(`/success/${result.paymentIntent.id}`)
         }
     };
@@ -50,9 +60,9 @@ const CheckoutForm = () => {
                         </span>
                     </div>
                 }
-                <AddressElement className='w-full' options={{
+                {/* <AddressElement className='w-full' options={{
                     mode: "billing"
-                }} />
+                }} /> */}
                 <PaymentElement className='w-full mt-4' />
                 {(stripe && elements) &&
                     <button

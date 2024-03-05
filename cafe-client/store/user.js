@@ -11,7 +11,18 @@ export const useUserStore = create((set) => ({
         firstName: "Bruce",
         lastName: "Wayne",
         email: "bruce@gotham.net",
-        stripeId: "cus_PeUnyW3YGnox9V"
+        stripeId: "cus_PeUnyW3YGnox9V",
+        deliveryAddresses: [
+            {
+                name: "Bruce Wayne",
+                line1: "1007 Mountain Drive",
+                line2: "Wayne Manor",
+                city: "Gotham",
+                state: "NJ",
+                postal_code: "12345",
+                country: "US",
+            }
+        ]
     },
     logUserIn: (userObject) => set(() => ({ user: userObject })),
     logUserOut: () => set(() => ({ user: null })),

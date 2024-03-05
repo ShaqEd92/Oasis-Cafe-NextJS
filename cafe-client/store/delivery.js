@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 export const useInfoStore = create((set) => ({
     personalInfo: {
-        name: "Bruce",
+        name: "Bruce Wayne",
         email: "bruce@gotham.net",
     },
     create: (info) => set(() => ({

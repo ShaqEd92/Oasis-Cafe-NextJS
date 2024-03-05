@@ -1,18 +1,19 @@
 import express from "express";
 
-import { login, register } from "../controllers/user.js";
-import { getPaymentInfo, preparePayment } from "../controllers/payment.js";
+import { addAddress, login, register } from "../controllers/user.js";
+import { getPaymentInfo, preparePayment, prepareQuickPayment } from "../controllers/payment.js";
 import {
   customerCreate,
   customerRetrieve,
   customerUpdate,
   customerDelete,
+  customerPaymentMethods,
 } from "../controllers/customer.js";
 import {
   paymentMethodCreate,
   paymentMethodRetrieve,
   paymentMethodUpdate,
-  paymentMethodDelete,
+  paymentMethodDetach,
 } from "../controllers/paymentMethod.js";
 import {
   subscriptionCreate,
@@ -29,9 +30,13 @@ router.post("/users/register", register);
 
 router.post("/users/login", login);
 
+router.post("/users/add-address", addAddress);
+
 // Payment
 
 router.post("/prepare-payment", preparePayment)
+
+router.post("/prepare-quick-payment", prepareQuickPayment)
 
 router.get("/payment-id/:id", getPaymentInfo)
 
@@ -45,15 +50,17 @@ router.put("/customer-update/:id", customerUpdate);
 
 router.delete("/customer-delete/:id", customerDelete);
 
+router.get("/customer-payments/:id", customerPaymentMethods);
+
 // Payment methods
 
 router.post("/payment-create", paymentMethodCreate);
 
-router.get("/payment-retrieve/:token", paymentMethodRetrieve);
+router.get("/payment-retrieve/:id", paymentMethodRetrieve);
 
-router.put("/payment-update/:token", paymentMethodUpdate);
+router.put("/payment-update/:id", paymentMethodUpdate);
 
-router.delete("/payment-delete/:token", paymentMethodDelete);
+router.delete("/payment-detach/:id", paymentMethodDetach);
 
 // Subscription
 
