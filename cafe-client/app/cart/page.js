@@ -120,7 +120,7 @@ const FullCart = ({ cartItems }) => {
                         </h3>
                         <br />
                         <Link href="/checkout">Proceed to checkout</Link>
-                        {loggedIn && (
+                        {/* {loggedIn && (
                             <Link
                                 href="/checkout/quick"
                                 className="mt-4 flex justify-center items-center !bg-contrast !border-contrast 
@@ -129,7 +129,7 @@ const FullCart = ({ cartItems }) => {
                                 <FaBoltLightning />
                                 <span className="ml-2">QUICK CHECKOUT</span>
                             </Link>
-                        )}
+                        )} */}
                     </div>
                 </section>
             </main>

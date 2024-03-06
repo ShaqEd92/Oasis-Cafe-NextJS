@@ -886,7 +886,7 @@ section {
 
 @media (max-width: 1200px) {
   .menu-page {
-    height: 100%;
+    height: 200%;
     width: 100%;
     margin: auto;
     background-color: #e8e9ed;
@@ -1561,61 +1561,6 @@ section {
   margin: auto !important;
 }
 
-@media (max-width: 1400px) {
-  .wallet-page {
-    height: -webkit-fit-content;
-    height: -moz-fit-content;
-    height: fit-content;
-    padding: 3% 0;
-  }
-
-  .wallet-page main form {
-    width: 75%;
-  }
-
-  .wallet-options button {
-    height: 250px !important;
-    width: 250px !important;
-  }
-
-  .wallet-options button i {
-    font-size: 110px;
-  }
-}
-
-@media (max-width: 1200px) {
-  .wallet-page {
-    height: -webkit-fit-content;
-    height: -moz-fit-content;
-    height: fit-content;
-    padding: 5% 0;
-  }
-
-  .wallet-page main form {
-    width: 90%;
-  }
-
-  .wallet-options {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    height: -webkit-fit-content;
-    height: -moz-fit-content;
-    height: fit-content;
-  }
-
-  .wallet-options button {
-    margin-bottom: 5%;
-    height: 175px !important;
-    width: 175px !important;
-  }
-
-  .wallet-options button i {
-    font-size: 75px;
-  }
-}
-
 body {
   margin: 0;
   padding: 0;
@@ -1640,8 +1585,3 @@ button:active {
   -o-transform: scale(0.97);
 }
 
-.Toastify__toast-body {
-  font-family: "Josefin Slab", serif;
-}
-
-/*# sourceMappingURL=App.css.map */
