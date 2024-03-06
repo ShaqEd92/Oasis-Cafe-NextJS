@@ -26,11 +26,10 @@ const Page = () => {
 
     useEffect(() => {
         if (user) {
+            router.push("/checkout")
             customerPaymentMethods(user.stripeId).then(({ data }) => {
                 setPaymentMethods(data.paymentMethods.data)
-                if (data.paymentMethods.data.length === 1)
-                    setSelectedPaymentMethod(data.paymentMethods.data[0].id)
-                else if (data.paymentMethods.data.length === 0)
+                if (data.paymentMethods.data.length === 0)
                     setEmptyPaymentMethods(true)
             })
         } else {
@@ -40,8 +39,9 @@ const Page = () => {
 
     useEffect(() => {
         if (user) {
-            if (user.deliveryAddresses === 0)
-                setEmptyAddresses(0)
+            if (user.deliveryAddresses.length === 0){
+                setEmptyAddresses(true)
+            }
         }
     }, [user]);
 
@@ -49,6 +49,7 @@ const Page = () => {
         setIsDisabled(true);
         const obj = {
             customerId: user.stripeId,
+            name: `${user.firstName} ${user.lasName}`,
             deliveryInfo: user.deliveryAddresses[selectedAddress],
             email: user.email,
             cart: cartItems,
@@ -88,7 +89,7 @@ const Page = () => {
                                     </div>
                                 </div>
                             ))}
-                        {emptyAddresses &&
+                        {(emptyAddresses) &&
                             <p className="text-primary jose mt-2 italic text-xl">
                                 Looks like you don&apos;t have any saved delivery addresses.&nbsp;
                                 <Link className="text-light hover:text-lighter" href={"/checkout"}>Go to regular checkout.</Link>
@@ -99,13 +100,13 @@ const Page = () => {
                 <div style={{ flex: 2 }}>
                     <h3 className="text-lighter jose text-xl font-bold">Select payment method:</h3>
                     <div className="flex flex-row">
-                        {paymentMethods &&
+                        {(paymentMethods) &&
                             paymentMethods.map((p, i) => (
                                 <div
                                     key={i}
                                     onClick={() => setSelectedPaymentMethod(p.id)}
                                     className={clsx(`mt-4 bg-lighter w-1/3 rounded-md p-2 text-center cursor-pointer hover:bg-white`,
-                                        { 'bg-contrast hover:bg-primary': p.id === selectedPaymentMethod }
+                                        { '!bg-contrast': p.id === selectedPaymentMethod }
                                     )}
                                 >
                                     {p.card.brand.toUpperCase()} ending in {p.card.last4}

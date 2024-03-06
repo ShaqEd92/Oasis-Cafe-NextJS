@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
+import { useCartItemsStore } from "../../../store/cart";
 import { getPaymentInfo } from "../../../api/paymentApi"
 import { formatter } from "../../../data/functions"
 import Link from "next/link";
@@ -11,10 +12,13 @@ const Page = () => {
 
     const pathname = usePathname();
 
+    const emptyCart = useCartItemsStore((state) => state.removeAll);
+
     const [ready, setReady] = useState(false)
     const [resultObject, setResultObject] = useState({})
 
     useEffect(() => {
+        emptyCart()
         let id = pathname.replace("/success/", "")
         getPaymentInfo(id).then((response) => {
             const { paymentIntent } = response.data;

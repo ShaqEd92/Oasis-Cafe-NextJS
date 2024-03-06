@@ -18,8 +18,6 @@ const Page = () => {
         } else {
             editCartItem(item.name, isInCart[0].quantity + 1);
         }
-        //! toast.info(`${item.name} added to Coffee Cart`);
-        console.log(cartItems)
     };
 
     return (
