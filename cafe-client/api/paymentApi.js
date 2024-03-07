@@ -1,6 +1,9 @@
 import axios from "axios";
+import dotenv from "dotenv";
 
-const BASE_URL = "http://localhost:5000";
+dotenv.config()
+
+const BASE_URL = process.env.BASE_URL
 
 export const preparePayment = (cart) => axios.post(`${BASE_URL}/prepare-payment`, cart);
 

@@ -46,7 +46,6 @@ export const addAddress = async (req, res) => {
     const user = await User.findOneAndUpdate({
       stripeId: stripeId,
     }, { "$push": { deliveryAddresses: address } });
-    console.log(user)
     res.status(200).json(user);
   } catch (error) {
     res.status(404).json({ message: error.message });
