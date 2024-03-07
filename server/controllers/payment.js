@@ -58,8 +58,8 @@ export const preparePayment = async (req, res) => {
 }
 
 export const prepareQuickPayment = async (req, res) => {
-    const { customerId, deliveryInfo, email, cart, paymentMethod } = req.body;
-    const { name, ...shippingAddress } = deliveryInfo;
+    const { customerId, deliveryInfo, email, cart, paymentMethod, name } = req.body;
+    const shippingAddress = deliveryInfo;
     const amount = calculateFinalAmount(cart);
     const orderId = generateOrderID();
     try {
@@ -81,7 +81,7 @@ export const prepareQuickPayment = async (req, res) => {
                 enabled: true,
                 allow_redirects: 'never'
             },
-        });
+        })
         const paymentIntent = await stripe.paymentIntents.confirm(response.id)
         res.json({ paymentIntent: paymentIntent });
     } catch (error) {

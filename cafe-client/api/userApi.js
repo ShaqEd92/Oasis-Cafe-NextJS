@@ -1,9 +1,12 @@
 import axios from "axios";
+import dotenv from "dotenv";
 
-const BASE_URL = "http://localhost:5000/users/";
+dotenv.config()
 
-export const register = (user) => axios.post(BASE_URL + "register", user);
+const BASE_URL = process.env.BASE_URL
 
-export const login = (user) => axios.post(BASE_URL + "login", user);
+export const register = (user) => axios.post(`${BASE_URL}/register`, user);
 
-export const addAddress = (address) => axios.post(BASE_URL + "add-address", address);
+export const login = (user) => axios.post(`${BASE_URL}/login`, user);
+
+export const addAddress = (address) => axios.post(`${BASE_URL}/add-address`, address);
